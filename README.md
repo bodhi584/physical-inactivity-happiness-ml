@@ -1,108 +1,127 @@
-# Physical Inactivity and Happiness: A Cross-Country Machine Learning Analysis
+# Physical Inactivity and Happiness: Cross-Country Machine Learning Analysis
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/bodhi584/physical-inactivity-happiness-ml/blob/main/notebooks/physical_inactivity_happiness_ml.ipynb)
+An evidence-led analysis of why physical inactivity and national happiness can appear positively associated across countries, using regression, tree ensembles, SHAP, K-Means, and PCA.
 
-This repository contains a reproducible notebook for a cross-country analysis of physical inactivity, national happiness, and broader well-being indicators.
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/bodhi584/physical-inactivity-happiness-ml/blob/main/notebooks/physical_inactivity_happiness_ml.ipynb)
+&nbsp; [View the executed notebook](notebooks/physical_inactivity_happiness_ml.ipynb)
 
-The project uses regression models, ensemble learning, SHAP explainability, K-Means clustering, and PCA to examine why countries with higher physical inactivity can still appear happier at the national level when socioeconomic and health-related factors are considered.
+![Held-out model performance comparison](figures/model_performance.png)
 
-## Portfolio Summary
+## At a Glance
 
-This is an individual data science portfolio project. It is designed to show an end-to-end workflow: framing a real-world analytical question, preparing multi-source public datasets, comparing statistical and machine learning models, interpreting model outputs, and packaging the work in a reproducible notebook.
+| Scope | Evidence |
+| --- | --- |
+| Analytical sample | 152 countries after country-name harmonization |
+| Modeling target | Mean national happiness score across available 2013-2023 observations |
+| Final feature set | Adult inactivity, GDP contribution, social support, health, and freedom |
+| Evaluation | Fixed 80/20 country split plus shuffled 5-fold cross-validation |
+| Final explained model | Cross-validated Random Forest selected on the training split |
+| Primary result | Held-out R-squared increased from 0.3093 with inactivity alone to 0.8763 with the final five-feature Random Forest |
 
-![Model performance comparison](figures/model_performance.png)
+The result is a model comparison, not evidence that inactivity causes happiness. Socioeconomic and health-related variables account for most of the predictive signal, while inactivity contributes relatively little to the final model.
 
-## Project Highlights
+## What I Built
 
-- Combined WHO physical activity data with World Happiness indicators.
-- Compared simple regression, multiple OLS, Random Forest, and Gradient Boosting models.
-- Used SHAP values to evaluate the relative contribution of each feature.
-- Applied K-Means clustering and PCA to describe country-level development profiles.
-- Kept the notebook reproducible with local datasets included in the `data/` folder.
+- Harmonized country names across three public data files and created a reproducible 152-country analytical dataset.
+- Engineered a five-feature modeling set from physical activity and well-being indicators.
+- Compared simple and multiple linear regression, baseline and tuned Random Forest, and Gradient Boosting.
+- Used SHAP to separate global model attribution from causal interpretation.
+- Built K-Means country profiles and a five-component PCA analysis to show the full variance distribution.
+- Packaged the complete workflow as an executed notebook that can be inspected without rerunning it.
 
-## Main Results
+## Results
 
-The final notebook reports the following model and dimensionality-reduction results:
+### Model performance
 
-- Simple Linear Regression test R-squared: `0.3093`
-- Multiple OLS test R-squared: `0.8292`
-- Tuned Random Forest test R-squared: `0.8763`
-- Multiple OLS cross-validation R-squared: `0.807`
-- Multiple OLS adjusted R-squared: `0.7950`
-- PCA variance explained by PC1 and PC2: `77.5%`
-- PCA variance explained by PC1 to PC3: `88.0%`
+All values below come from the same fixed 20% held-out country split (`random_state=42`).
 
-SHAP feature contribution in the final Random Forest model:
+| Model | Held-out R-squared | MAE | RMSE |
+| --- | ---: | ---: | ---: |
+| Inactivity-only linear regression | 0.3093 | 0.7546 | 0.9123 |
+| Five-feature linear regression | 0.8292 | 0.3431 | 0.4537 |
+| Baseline Random Forest | 0.8821 | 0.3026 | 0.3770 |
+| Tuned Random Forest | 0.8763 | 0.3053 | 0.3861 |
+| Tuned Gradient Boosting | 0.8750 | 0.3031 | 0.3881 |
 
-![SHAP feature contribution](figures/shap_contribution.png)
+The baseline Random Forest produced the highest score on this one test split. The tuned Random Forest was retained as the final explained model because its hyperparameters were selected through five-fold grid search on the training data; tuning did not improve the held-out score. Its post-selection shuffled five-fold R-squared averaged 0.823, which is supporting validation evidence rather than nested or external validation.
 
-| Feature | Contribution |
+### SHAP model attribution
+
+![Random Forest mean absolute SHAP contribution](figures/shap_contribution.png)
+
+| Feature | Share of mean absolute SHAP |
 | --- | ---: |
-| GDP per Capita | 36.4% |
-| Healthy Life Expectancy | 32.4% |
-| Social Support | 14.9% |
+| GDP per capita contribution | 36.4% |
+| Healthy life expectancy contribution | 32.4% |
+| Social support | 14.9% |
 | Freedom | 13.6% |
-| Physical Inactivity | 2.8% |
+| Adult physical inactivity | 2.8% |
 
-These results should be interpreted as model-based associations, not causal estimates. The notebook includes a DAG-based discussion to clarify why GDP-related confounding is important in this topic.
+These percentages describe how the final Random Forest distributes prediction influence across features. They are not causal effect estimates.
 
-![PCA explained variance](figures/pca_explained_variance.png)
+### Country profiles and PCA
 
-## Repository Structure
+![PCA explained variance across all five components](figures/pca_explained_variance.png)
 
-```text
-.
-├── data/
-│   ├── who_physical_activity.csv
-│   ├── world_happiness.csv
-│   └── world_happiness_allyears.csv
-├── figures/
-│   ├── model_performance.png
-│   ├── pca_explained_variance.png
-│   └── shap_contribution.png
-├── notebooks/
-│   └── physical_inactivity_happiness_ml.ipynb
-├── requirements.txt
-└── README.md
-```
+PC1 and PC2 explain 77.5% of standardized feature variance; all five components are retained in the figure so the remaining 22.5% is visible. The highest silhouette score occurred at `k=2` (0.374), while `k=3` was used for richer exploratory country profiling. Cluster labels therefore describe patterns in this feature space rather than definitive country categories.
 
-## How to Run
+## Method
 
-Use Python 3.10 or 3.11. Install the dependencies:
+1. Load the World Happiness and WHO country-profile files.
+2. Harmonize country names and average the available 2013-2023 happiness observations.
+3. Merge 2015 World Happiness explanatory contributions with WHO 2022 physical-activity indicators.
+4. Clean numeric fields, derive average adult inactivity, and mean-impute missing inactivity values.
+5. Compare regression and ensemble models using a fixed holdout and shuffled five-fold validation.
+6. Explain the selected Random Forest with mean absolute SHAP values.
+7. Standardize the five features for K-Means and PCA.
+
+## Scope and Limitations
+
+- This is an observational, country-level analysis. It does not identify individual-level or causal effects.
+- The inputs are not temporally aligned: the target averages available 2013-2023 happiness values, the explanatory contribution columns come from the 2015 report, and physical-activity indicators come from WHO 2022 profiles.
+- World Happiness explanatory columns are model-derived contribution measures, not raw socioeconomic measurements. Their structural relationship to happiness can make predictive fit appear stronger.
+- Mean imputation of missing inactivity values preserves sample size but may reduce country-level variation.
+- The sample contains 152 countries, and the held-out results depend on one random split. No external or out-of-distribution test set is included.
+- The reported full-data cross-validation for the tuned ensemble is post-selection rather than nested cross-validation.
+
+## Quick Start
+
+The recommended route is the **Open in Colab** button at the top of this page. The notebook downloads the three public CSV files from this repository when they are not already present.
+
+For a local run with Python 3.10-3.12:
 
 ```bash
+git clone https://github.com/bodhi584/physical-inactivity-happiness-ml.git
+cd physical-inactivity-happiness-ml
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-```
-
-From the repository root, launch the notebook:
-
-```bash
 jupyter notebook notebooks/physical_inactivity_happiness_ml.ipynb
 ```
 
-The notebook automatically resolves the included `data/` directory whether Jupyter is launched from the repository root or from the `notebooks/` directory. In Google Colab, it prompts for the three CSV files when they are not already available. Saved outputs are included so the results can also be reviewed without rerunning every cell.
+Saved outputs are included, so the analysis can also be reviewed directly on GitHub without executing the notebook.
 
-## Data Sources
+## Repository Map
+
+```text
+.
+├── data/           # Three required CSV files and provenance notes
+├── figures/        # Three selected visuals supporting headline claims
+├── notebooks/      # Final executed analysis and saved outputs
+├── .gitignore
+├── LICENSE
+├── README.md
+└── requirements.txt
+```
+
+## Data Sources and Reuse
 
 - [WHO Global Status Report on Physical Activity 2022: Country Profiles](https://www.who.int/publications/i/item/9789240064119)
 - [World Happiness Report 2015](https://worldhappiness.report/ed/2015/)
-- [World Happiness Report data-sharing page](https://worldhappiness.report/data-sharing/) for the multi-year happiness index series
+- [World Happiness Report data-sharing page](https://worldhappiness.report/data-sharing/) for the multi-year happiness series
 
-The repository retains the three analysis-ready CSV files for reproducibility. Rights in the source data remain with their respective providers, and reuse should follow the terms stated on the linked source pages.
-
-## Limitations
-
-- The analysis is observational and cross-country, so model associations should not be interpreted as causal effects.
-- The principal happiness and physical-activity sources refer to different years (2015 and 2022), making the comparison exploratory rather than a same-year panel analysis.
-- Missing physical-inactivity values are mean-imputed in the preprocessing pipeline; this supports a complete modeling sample but may reduce country-level variation.
+The repository includes analysis-ready copies of the three inputs for reproducibility. Rights in those datasets remain with their providers, and their reuse is governed by the terms on the linked source pages. The MIT license in this repository applies to the original code and documentation only; it does not relicense third-party data.
 
 ## Skills Demonstrated
 
-- Data cleaning and feature preparation
-- Regression analysis and model comparison
-- Cross-validation and hyperparameter tuning
-- Tree-based ensemble models
-- SHAP model explainability
-- K-Means clustering
-- PCA dimensionality reduction
-- Reproducible notebook-based reporting
+Data integration, feature engineering, regression diagnostics, cross-validation, hyperparameter tuning, ensemble learning, SHAP explainability, K-Means clustering, PCA, scientific visualization, and reproducible notebook delivery.
