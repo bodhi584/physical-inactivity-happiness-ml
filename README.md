@@ -72,13 +72,13 @@ Install the dependencies:
 pip install -r requirements.txt
 ```
 
-Then open and run:
+From the repository root, launch the notebook:
 
-```text
-notebooks/physical_inactivity_happiness_ml.ipynb
+```bash
+jupyter notebook notebooks/physical_inactivity_happiness_ml.ipynb
 ```
 
-The notebook is designed to run from the repository root. It also contains saved outputs so the results can be reviewed without rerunning every cell.
+The notebook automatically resolves the included `data/` directory whether Jupyter is launched from the repository root or from the `notebooks/` directory. In Google Colab, it prompts for the three CSV files when they are not already available. Saved outputs are included so the results can also be reviewed without rerunning every cell.
 
 ## Skills Demonstrated
 
