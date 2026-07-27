@@ -1,5 +1,7 @@
 # Physical Inactivity and Happiness: A Cross-Country Machine Learning Analysis
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/bodhi584/physical-inactivity-happiness-ml/blob/main/notebooks/physical_inactivity_happiness_ml.ipynb)
+
 This repository contains a reproducible notebook for a cross-country analysis of physical inactivity, national happiness, and broader well-being indicators.
 
 The project uses regression models, ensemble learning, SHAP explainability, K-Means clustering, and PCA to examine why countries with higher physical inactivity can still appear happier at the national level when socioeconomic and health-related factors are considered.
@@ -66,7 +68,7 @@ These results should be interpreted as model-based associations, not causal esti
 
 ## How to Run
 
-Install the dependencies:
+Use Python 3.10 or 3.11. Install the dependencies:
 
 ```bash
 pip install -r requirements.txt
@@ -80,6 +82,20 @@ jupyter notebook notebooks/physical_inactivity_happiness_ml.ipynb
 
 The notebook automatically resolves the included `data/` directory whether Jupyter is launched from the repository root or from the `notebooks/` directory. In Google Colab, it prompts for the three CSV files when they are not already available. Saved outputs are included so the results can also be reviewed without rerunning every cell.
 
+## Data Sources
+
+- [WHO Global Status Report on Physical Activity 2022: Country Profiles](https://www.who.int/publications/i/item/9789240064119)
+- [World Happiness Report 2015](https://worldhappiness.report/ed/2015/)
+- [World Happiness Report data-sharing page](https://worldhappiness.report/data-sharing/) for the multi-year happiness index series
+
+The repository retains the three analysis-ready CSV files for reproducibility. Rights in the source data remain with their respective providers, and reuse should follow the terms stated on the linked source pages.
+
+## Limitations
+
+- The analysis is observational and cross-country, so model associations should not be interpreted as causal effects.
+- The principal happiness and physical-activity sources refer to different years (2015 and 2022), making the comparison exploratory rather than a same-year panel analysis.
+- Missing physical-inactivity values are mean-imputed in the preprocessing pipeline; this supports a complete modeling sample but may reduce country-level variation.
+
 ## Skills Demonstrated
 
 - Data cleaning and feature preparation
@@ -90,7 +106,3 @@ The notebook automatically resolves the included `data/` directory whether Jupyt
 - K-Means clustering
 - PCA dimensionality reduction
 - Reproducible notebook-based reporting
-
-## Data Note
-
-The datasets are included so this individual portfolio project can be reproduced. Anyone reusing the data should check the original source terms from WHO and the World Happiness data providers.
