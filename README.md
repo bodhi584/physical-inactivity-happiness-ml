@@ -2,11 +2,15 @@
 
 An evidence-led analysis of why physical inactivity and national happiness can appear positively associated across countries, using regression, tree ensembles, SHAP, K-Means, and PCA.
 
-## Explore the complete project
+## Start here — the complete interactive report
 
-**[Open the full interactive HTML report →](https://bodhi584.github.io/physical-inactivity-happiness-ml/)**
+### **[Open the complete interactive report →](https://bodhi584.github.io/physical-inactivity-happiness-ml/)**
 
-The self-contained offline report is the richest visual walkthrough of the project, with the full research narrative, methodology, results, figures, and interactive presentation controls in one place.
+This is the primary project experience and the recommended first review. It brings the research question, data, methodology, model comparisons, explainability, conclusions, figures, and interactive controls into one polished walkthrough.
+
+> **Recommended path:** Explore the report first. If you want to reproduce or extend the analysis, open the notebook and run the code.
+
+Then reproduce the analysis:
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/bodhi584/physical-inactivity-happiness-ml/blob/main/notebooks/physical_inactivity_happiness_ml.ipynb)
 &nbsp; [View the executed notebook](notebooks/physical_inactivity_happiness_ml.ipynb) · [View the report source](docs/index.html)
