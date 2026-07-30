@@ -4,7 +4,7 @@ An evidence-led analysis of why physical inactivity and national happiness can a
 
 ## Explore the complete project
 
-<a href="https://bodhi584.github.io/physical-inactivity-happiness-ml/" target="_blank" rel="noopener noreferrer"><strong>Open the full interactive HTML report in a new tab →</strong></a>
+**[Open the full interactive HTML report →](https://bodhi584.github.io/physical-inactivity-happiness-ml/)**
 
 The self-contained offline report is the richest visual walkthrough of the project, with the full research narrative, methodology, results, figures, and interactive presentation controls in one place.
 
