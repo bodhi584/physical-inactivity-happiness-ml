@@ -1,5 +1,7 @@
 # Physical Inactivity and Happiness: Cross-Country Machine Learning Analysis
 
+**Authors:** Yu Han · Melisa Subasi · Meron Hagos · Alejandro Rivas
+
 An evidence-led analysis of why physical inactivity and national happiness can appear positively associated across countries, using regression, tree ensembles, SHAP, K-Means, and PCA.
 
 ## Start here — the complete interactive report
@@ -30,7 +32,7 @@ Then reproduce the analysis:
 
 The result is a model comparison, not evidence that inactivity causes happiness. Socioeconomic and health-related variables account for most of the predictive signal, while inactivity contributes relatively little to the final model.
 
-## What I Built
+## What We Built
 
 - Harmonized country names across three public data files and created a reproducible 152-country analytical dataset.
 - Engineered a five-feature modeling set from physical activity and well-being indicators.
